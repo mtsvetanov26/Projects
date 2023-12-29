@@ -1,31 +1,37 @@
 package GameInstantiation;
 
-import Data.RandomWordGenerator;
+import Data.DataInput;
+import Data.WordGenerator;
+import Occurances.OccurrenceNumber;
 import PrinterInstantiation.Printer;
+import Stats.Statistics;
 
 import java.util.HashSet;
-
 import java.util.Set;
 
 import static GameInstantiation.Game.*;
 
 public class GameLogic {
-    private final String difficulty;
+    private final String DIFFICULTY;
     private int lives;
+
 
     public GameLogic(String difficulty, int lives) {
 
-        this.difficulty = difficulty;
+        this.DIFFICULTY = difficulty;
         this.lives = lives;
         playGame();
     }
 
     private void playGame() {
 
-        RandomWordGenerator randomWordGenerator = new RandomWordGenerator();
-        String generatedWord = randomWordGenerator.randomWord(this.difficulty.toLowerCase());
-        String dashedWord = returnDashes(generatedWord);
+        String generatedWord = WordGenerator.randomWord(DIFFICULTY.toLowerCase(),DataInput.getInstance());
+        String dashedWord = WordGenerator.wordDashed(generatedWord);
+
         Set<Character> usedCharacters = new HashSet<>();
+
+        Statistics stats = (Statistics) Loader.getInstance().getCurrentData(0);
+        OccurrenceNumber occurances = (OccurrenceNumber) Loader.getInstance().getCurrentData(1);
 
         Printer.word(dashedWord);
 
@@ -51,34 +57,23 @@ public class GameLogic {
                 dashedWord = modifiedWord(letterInput,dashedWord,generatedWord);
                 Printer.word(dashedWord);
 
-
             }
 
             Printer.usedChars(usedCharacters);
 
             if(dashedWord.equals(generatedWord)) {
-                stats.putSuccessfulAttempt(difficulty);
+                stats.putSuccessfulAttempt(DIFFICULTY);
                 Printer.winMSG();
                 break;
 
             }
         }
 
-        stats.putAttempt(difficulty);
-        stats.updateSuccessRate(difficulty);
-        occurrences.putOccurrence(generatedWord);
+        stats.putAttempt(DIFFICULTY);
+        stats.updateSuccessRate(DIFFICULTY);
+        occurances.putOccurrence(generatedWord);
     }
 
-    private String returnDashes(String word) {
-
-        String replacementWord = "";
-
-        for (int i = 0; i < word.length(); i++) {
-            replacementWord = replacementWord.concat("_");
-        }
-
-        return replacementWord;
-    }
 
     private String modifiedWord(char letterInput, String dashedWord, String generatedWord) {
 
@@ -99,7 +94,7 @@ public class GameLogic {
 
             try {
 
-                char inputLetter = sc.nextLine().toLowerCase().charAt(0);
+                char inputLetter = SC.nextLine().toLowerCase().charAt(0);
 
                 if((int) inputLetter >= 97 && (int) inputLetter <= 122) {
                     return inputLetter;

@@ -1,57 +1,47 @@
-package Stats;
+package Occurances;
 
 import Data.DataManager;
 import GameInstantiation.Loader;
 import Interfaces.Selectable;
 import PrinterInstantiation.Printer;
 
+import static GameInstantiation.Game.SC;
 
-import java.io.File;
+public class OccurrenceMenu implements Selectable {
 
-import static GameInstantiation.Game.*;
-
-
-public class StatisticsMenu implements Selectable {
 
     @Override
     public void selectableSegments() {
-        Printer.statsSuccessRate();
-
+        Printer.occurrences();
         while (true) {
-            char number = '\0';
+            char input = '\0';
 
             try {
-                number = SC.nextLine().charAt(0);
+                input = SC.nextLine().charAt(0);
 
             } catch (StringIndexOutOfBoundsException ignore) {
 
             }
 
-            switch (number) {
+            switch (input) {
                 case '1':
 
                     return;
 
                 case '2':
-                    DataManager.reset(0);
-                    Loader.getInstance().setCurrentData(0, new Statistics());
-                    return;
-
-                case '3':
-                    DataManager.save(0);
+                    DataManager.reset(1);
+                    Loader.getInstance().setCurrentData(1, new OccurrenceNumber());
                     return;
 
                 default:
                     Printer.inputError();
             }
+
         }
     }
 
     @Override
     public String getName() {
-        return "View Statistics";
+        return "Occurrences";
     }
-
-
-
 }

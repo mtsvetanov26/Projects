@@ -1,23 +1,20 @@
-package Stats;
+package GameInstantiation;
 
-import Data.DataManager;
-import GameInstantiation.Loader;
+
 import Interfaces.Selectable;
 import PrinterInstantiation.Printer;
 
 
-import java.io.File;
+import static GameInstantiation.Game.SC;
 
-import static GameInstantiation.Game.*;
-
-
-public class StatisticsMenu implements Selectable {
+public class WordsMenu implements Selectable {
 
     @Override
     public void selectableSegments() {
-        Printer.statsSuccessRate();
+
 
         while (true) {
+            Printer.wordsMenu();
             char number = '\0';
 
             try {
@@ -29,16 +26,17 @@ public class StatisticsMenu implements Selectable {
 
             switch (number) {
                 case '1':
-
-                    return;
+                    Printer.printWordsList();
+                    break;
 
                 case '2':
-                    DataManager.reset(0);
-                    Loader.getInstance().setCurrentData(0, new Statistics());
+
                     return;
 
                 case '3':
-                    DataManager.save(0);
+
+                    return;
+                case '4':
                     return;
 
                 default:
@@ -49,9 +47,6 @@ public class StatisticsMenu implements Selectable {
 
     @Override
     public String getName() {
-        return "View Statistics";
+        return "Words";
     }
-
-
-
 }

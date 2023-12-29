@@ -4,7 +4,7 @@ import Interfaces.Selectable;
 import PrinterInstantiation.Printer;
 
 
-import static GameInstantiation.Game.sc;
+import static GameInstantiation.Game.SC;
 
 public class DifficultySelectionLogic implements Selectable {
 
@@ -13,7 +13,7 @@ public class DifficultySelectionLogic implements Selectable {
         while (true) {
 
             Printer.difficultyOptions();
-            String input = sc.nextLine();
+            String input = SC.nextLine();
 
             if(input.equals("1") || input.equals("2") || input.equals("3")) {
                 String difficulty = getDifficultyInfo(input)[0];

@@ -6,13 +6,20 @@ import java.io.IOException;
 import java.util.*;
 
 public class DataInput {
-    private HashMap<String, List<String>> words = new HashMap<>();
+    private static DataInput dataInput;
+    private final HashMap<String, List<String>> words = new HashMap<>();
 
 
-    public DataInput() {
+    private DataInput() {
         createWordsMap();
     }
 
+    public static DataInput getInstance() {
+        if(dataInput == null) {
+            dataInput = new DataInput();
+        }
+        return dataInput;
+    }
     private void createWordsMap() {
 
         words.put("easy", new ArrayList<>());
@@ -20,9 +27,12 @@ public class DataInput {
         words.put("hard", new ArrayList<>());
 
         try {
-            BufferedReader bf = new BufferedReader(new FileReader("E:\\Programming\\Hangman\\src\\main\\java\\words.txt"));
-            while (bf.readLine() != null) {
-                correctValue(bf.readLine().toLowerCase(Locale.ROOT));
+            BufferedReader bf = new BufferedReader(new FileReader(System.getProperty("user.dir").concat("\\src\\main\\java\\words.txt")));
+            String word = bf.readLine();
+
+            while (word != null) {
+                correctValue(word.toLowerCase());
+                word = bf.readLine();
             }
             bf.close();
         }catch (IOException ioe) {
@@ -32,7 +42,6 @@ public class DataInput {
     }
 
     private void correctValue(String input) {
-
 
         if(input.length() >= 3 && input.length() <= 4) {
             words.get("hard").add(input);
@@ -45,6 +54,31 @@ public class DataInput {
 
     public HashMap<String, List<String>> getWordsMap() {
         return this.words;
+    }
+
+    public void addWords(String wordsInput) {
+        String[]words = wordsInput.split(", ");
+
+        for (int i = 0; i < words.length; i++) {
+            if(isWordLegit(words[i].toLowerCase())) {
+
+            }
+
+        }
+    }
+
+    private boolean isWordLegit(String word) {
+        boolean isLegit = false;
+
+        for (int i = 0; i < word.length(); i++) {
+            if((int)word.charAt(i) >= 97 && (int)word.charAt(i) <= 122) {
+                isLegit = true;
+            }else {
+                return false;
+            }
+        }
+
+        return isLegit;
     }
 
 

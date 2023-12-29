@@ -1,18 +1,21 @@
 package GameInstantiation;
 
 import Interfaces.Selectable;
+import Occurances.OccurrenceMenu;
 import PrinterInstantiation.Printer;
 import Stats.StatisticsMenu;
 
 import java.util.List;
 
-import static GameInstantiation.Game.sc;
+import static GameInstantiation.Game.SC;
+
 
 public class MainMenu {
-    private static List<Selectable> selectableOptions = List.of(
+    private static final List<Selectable> selectableOptions = List.of(
                                                         new DifficultySelectionLogic(),
-                                                        new StatisticsMenu());
-
+                                                        new StatisticsMenu(),
+                                                        new OccurrenceMenu(),
+                                                        new WordsMenu());
 
     static void main() {
 
@@ -38,7 +41,7 @@ public class MainMenu {
 
 
         while (true) {
-            String input = sc.nextLine();
+            String input = SC.nextLine();
 
             try {
                 return Integer.parseInt(input);

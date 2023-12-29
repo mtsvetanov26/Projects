@@ -2,16 +2,15 @@ package Stats;
 
 
 import Interfaces.DataLoader;
-
 import java.util.LinkedHashMap;
 
 
 public class Statistics extends DataLoader {
-    private final LinkedHashMap<String, double[]> stats;
-
+    private final LinkedHashMap<String, double[]> STATS;
+    private final String NAME = "Statistics";
     public Statistics() {
         super();
-        this.stats = instantiateStats();
+        this.STATS = instantiateStats();
 
     }
     private LinkedHashMap<String, double[]>instantiateStats() {
@@ -23,36 +22,40 @@ public class Statistics extends DataLoader {
         statistics.put("hard", new double[]{0, 0, 0});
 
 
-
         return statistics;
     }
 
     public void putAttempt(String difficulty) {
 
-        stats.get(difficulty)[1]++;
+        this.STATS.get(difficulty)[1]++;
 
     }
 
     public void putSuccessfulAttempt(String difficulty) {
 
-        stats.get(difficulty)[0]++;
+        this.STATS.get(difficulty)[0]++;
 
     }
 
     public void updateSuccessRate(String difficulty) {
-        double successfulAttempt = stats.get(difficulty)[0];
-        double attempt = stats.get(difficulty)[1];
+        double successfulAttempt = STATS.get(difficulty)[0];
+        double attempt = STATS.get(difficulty)[1];
 
-        stats.get(difficulty)[2] = (successfulAttempt / attempt) * 100;
+        STATS.get(difficulty)[2] = (successfulAttempt / attempt) * 100;
     }
 
     public LinkedHashMap<String, double[]> getStats() {
-        return this.stats;
+        return this.STATS;
     }
 
 
     @Override
     protected String setFileName() {
-        return "stats";
+        return "stats_sav.ser";
+    }
+
+    @Override
+    public String getName() {
+        return this.NAME;
     }
 }
